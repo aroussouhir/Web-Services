@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jsftl/core">
+ 
+ <h:head>
+    	<title>Bank Service</title>
+    	   <link rel="icon" href="resources/images/Logo2.png" type="image/png"  />
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device.width, initial-sacle=1"/>
+			<meta http-equiv="X-UA-Conpatible" content="IE=edge"/>
+			  
+			<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+			   
+		
+			
+			<h:outputScript library="js" name="jquery-3.5.1.min.js"></h:outputScript>
+			<h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+				
+			<script src="https://kit.fontawesome.com/3c6061281c.js" crossorigin="anonymous"></script>
+
+		
+			
+
+    </h:head>
+    
+	<h:body style="background-color:aliceblue;">
+	
+	
+		  	<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #0099ff !important;">
+			    
+			   		<a class="navbar-brand" href="#"><img src="resources/images/LogoT.png" style="width: 50px;"></img>   IfShare Bank Web Service</a>
+			       	
+
+    				
+			       	
+				  
+		
+			</nav>
+	
+	<div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="resources/images/LogoT.png" alt="" width="100" height="100"/>
+        <h2>Bank Web Service</h2>
+        <p class="lead">Web page to manage bank accounts</p>
+     </div>
+	
+	
+	
+		<div class="container">
+			<div class="row">
+			
+				<div class="col-md-4 order-md-2 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="text-muted">Account List</span>
+						
+					</h4>
+					
+					
+					<h:form id="tableForm">
+					 <h:dataTable value="#{BankController.getAccounts()}" var="a" styleClass="table table-bordered table-striped tableOutput">
+				        
+				        
+				         <h:column>
+				         
+				        <f:facet name="header">
+				                <h:outputText value="IBAN"/>
+				            </f:facet>
+				       
+				           <h:outputText value="#{a.iban}" />
+				        </h:column>
+				        
+				        <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Country"/>
+				            </f:facet>
+				            <h:outputText value="#{a.ownerCountry}" />
+				        </h:column>
+				        
+				        <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Frist Name"/>
+				            </f:facet>
+				            <h:outputText value="#{a.ownerFirstName}" />
+				        </h:column>
+				        
+				         <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Last Name"/>
+				            </f:facet>
+				           	 <h:outputText value="#{a.ownerLastName}"/>
+				   
+				        </h:column>
+				        
+				        <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Email"/>
+				            </f:facet>
+				             <h:outputText value="#{a.ownerEmail}"></h:outputText>
+				        </h:column>
+				        
+				        <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Bank"/>
+				            </f:facet>
+				           <h:outputText value="#{BankController.getBankService().searchBankById(a.bank_id).getName()}" />
+				        </h:column>
+				        
+				  
+				        
+				        <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Balance"/>
+				            </f:facet>
+				           <h:outputText value="#{a.balance}"/>
+				        </h:column>
+				        
+				         <h:column>
+				            <f:facet name="header">
+				                <h:outputText value="Currency"/>
+				            </f:facet>
+				           <h:outputText value="#{a.currency}"/>
+				        </h:column>
+				        
+				      
+				        
+				      <h:column>
+				      <f:facet name="header">
+				                <h:outputText value="Modify"/>
+				            </f:facet>
+				      		<h:commandLink action="#{BankController.editAccount(a)}"> 
+					             <i class="fas fa-edit"></i>
+					              <f:ajax execute="@form" render="accountFrom" />
+				             </h:commandLink>
+				       	</h:column>
+				       	
+				         <h:column>
+				         <f:facet name="header">
+				                <h:outputText value="Remove"/>
+				            </f:facet>
+				      		<h:commandLink action="#{BankController.removeAccount(a)}"> 
+					             <i class="fas fa-trash"></i>
+					              <f:ajax execute="@form" render="tableForm" />
+				             </h:commandLink>
+				       	</h:column>
+				     
+				        
+				    </h:dataTable>	        
+					</h:form>	        
+						        
+			 <!--       <table class="table table-bordered table-striped tableOutput" >
+			            <thead>
+			                <tr>
+			                	<th>Iban</th>
+			               		<th>Owner Country Country</th>
+			                	<th>Owner First Name</th>
+			                    <th>Owner Last Name</th>
+			                    <th>Owner Email</th>
+			                    <th>Bank</th>
+			                    <th>Balance</th>
+			                    <th>Currency</th>
+			                    <th></th>
+			                    <th></th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                 
+			                 <ui:repeat id="mytable" var="a" value="#{BankController.getAccounts()}" varStatus="status">
+			                <tr>
+			                 	<td><h:outputText value="#{a.iban}" /></td>
+			                 	<td><h:outputText value="#{a.ownerCountry}" /></td>
+			                    <td><h:outputText value="#{a.ownerFirstName}" /></td>
+			                    <td><h:outputText value="#{a.ownerLastName}" /></td>
+			                    <td><h:outputText value="#{a.ownerEmail}" /></td>
+			                    <td><h:outputText value="#{BankController.getBankService().searchBankById(a.bank_id).getName()}" /></td>
+			                    <td><h:outputText value="#{a.balance}" /></td>
+			                    <td><h:outputText value="#{a.currency}" /></td>
+			                    <td><a href="#"><span id="#{a.iban}" class="fas fa-edit"></span></a></td>
+			                    <td><a href="#"><span id="#{a.iban}" class="fas fa-trash"></span></a></td>
+			                </tr>
+			                </ui:repeat>
+			            </tbody>
+			        </table> -->
+					
+					
+				</div>
+			
+				
+				<div class="col-md-4 order-md-1 mb-3">
+					<h:form styleClass="needs-validation" id="accountFrom">
+							
+							<h:inputHidden value="#{BankController.account_id}" id="accountId"></h:inputHidden>  
+							
+							<div class="mb-3">
+									<h:outputLabel value="IBAN" styleClass="control-label mb-3"/>
+									
+											<h:inputText styleClass="form-control" value="#{BankController.iban}" required="true"></h:inputText>
+										
+								</div>
+						
+						<div class="row">
+							
+							<div class="col-md-6 mb-3">
+								<h:outputLabel value="Frist name" styleClass="control-label mb-3"/>
+									
+										<h:inputText styleClass="form-control" value="#{BankController.ownerFirstName}" required="true"></h:inputText>
+									
+							</div>
+							<div class="col-md-6 mb-3">
+									<h:outputLabel value="Last name" styleClass="control-label mb-3"/>
+										
+											<h:inputText styleClass="form-control" value="#{BankController.ownerLastName}" required="true"></h:inputText>
+										
+							</div>
+							
+						</div>	
+							
+							
+							
+							<div class="mb-3">
+								<h:outputLabel value="Email" styleClass="control-label mb-3"/>
+								
+										<h:inputText styleClass="form-control" value="#{BankController.ownerEmail}" required="true"></h:inputText>
+									
+							</div>
+							
+						<div class="row">
+							<div class="col-md-4 mb-3">
+									<h:outputLabel value="Country" styleClass="control-label col-sm-2"/>
+									<h:selectOneMenu id="countryName" styleClass="custom-select d-block w-100" value="#{BankController.ownerCountry}" required="true">
+										<f:selectItems value="#{BankController.getAllCountries()}"/>
+									</h:selectOneMenu>
+								
+							</div>
+								<div class="col-md-4 mb-3">
+									<h:outputLabel value="Bank" styleClass="control-label col-sm-2"/>
+									<h:selectOneMenu id="bankName" styleClass="custom-select d-block w-100" value="#{BankController.bank_id}" required="true">
+									
+									<f:selectItems value="#{BankController.getAllBanks()}"/>
+									</h:selectOneMenu>
+								
+							</div>
+							<div class="col-md-4 mb-3">
+									<h:outputLabel value="Balance" styleClass="control-label col-sm-2"/>
+									<h:inputText styleClass="form-control"  value="#{BankController.balance}" required="true"></h:inputText>
+								
+							</div>
+							
+						</div>
+							
+				
+						
+					<hr class="mb-4"></hr>
+					<h:commandButton styleClass="btn btn-success btn-lg btn-block" style="background-color:#03dd03" value="Add Account"  action="#{BankController.addAccount(BankController.account_id)}">
+					<f:ajax execute="@form" render="tableForm" />
+					</h:commandButton>
+					
+				
+				</h:form>
+			</div>	
+			</div>
+	</div>
+		
+
+	
+		
+
+	
+	</h:body>
+
+</html>
